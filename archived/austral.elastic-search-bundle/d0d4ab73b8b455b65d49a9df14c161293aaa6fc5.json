@@ -1,0 +1,36 @@
+{
+    "manifests": {
+        "austral/elastic-search-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\ElasticSearchBundle\\AustralElasticSearchBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "env": {
+                    "#1": "Elasticsearch server, used when austral_elastic_search.enabled is true",
+                    "ELASTICSEARCH_URL": "http://localhost:9200"
+                }
+            },
+            "files": {
+                "config/packages/austral_elastic_search.yaml": {
+                    "contents": [
+                        "austral_elastic_search:",
+                        "    enabled:    false           # true to index the entities with #[ElasticSearch]",
+                        "    index_name: elastic-search",
+                        "    hosts:",
+                        "        - '%env(ELASTICSEARCH_URL)%'",
+                        "    logger:",
+                        "        enabled: true",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "d0d4ab73b8b455b65d49a9df14c161293aaa6fc5"
+        }
+    }
+}

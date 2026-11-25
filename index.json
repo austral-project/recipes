@@ -1,0 +1,32 @@
+{
+    "aliases": [],
+    "recipes": {
+        "austral/cache-bundle": [
+            "4.0"
+        ],
+        "austral/elastic-search-bundle": [
+            "4.0"
+        ],
+        "austral/entity-file-bundle": [
+            "4.0"
+        ],
+        "austral/http-bundle": [
+            "4.0"
+        ],
+        "austral/security-bundle": [
+            "4.0"
+        ]
+    },
+    "recipe-conflicts": [],
+    "versions": [],
+    "branch": "master",
+    "is_contrib": false,
+    "_links": {
+        "repository": "github.com/austral-project/recipes",
+        "origin_template": "{package}:{version}@github.com/austral-project/recipes:master",
+        "recipe_template": "https://raw.githubusercontent.com/austral-project/recipes/flex/master/{package_dotted}.{version}.json",
+        "recipe_template_relative": "{package_dotted}.{version}.json",
+        "archived_recipes_template": "https://raw.githubusercontent.com/austral-project/recipes/flex/master/archived/{package_dotted}/{ref}.json",
+        "archived_recipes_template_relative": "archived/{package_dotted}/{ref}.json"
+    }
+}

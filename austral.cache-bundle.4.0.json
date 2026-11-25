@@ -1,0 +1,34 @@
+{
+    "manifests": {
+        "austral/cache-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\CacheBundle\\AustralCacheBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/packages/austral_cache.yaml": {
+                    "contents": [
+                        "austral_cache:",
+                        "    enabled:    true",
+                        "    # filesystem: one cache per server; redis: shared between servers; pool: a cache pool of the application",
+                        "    adapter:    filesystem",
+                        "    # dsn:      '%env(REDIS_URL)%'  # redis adapter",
+                        "    # pool:     cache.app           # pool adapter",
+                        "    # 0: no expiration, the cache is invalidated when an entity is saved",
+                        "    ttl:        0",
+                        "",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "8d294c99320c09723734633d7d03338b3fd18bb1"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "manifests": {
+        "austral/entity-file-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\EntityFileBundle\\AustralEntityFileBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/packages/austral_entity_file.yaml": {
+                    "contents": [
+                        "austral_entity_file:",
+                        "    # Command that compresses the uploaded images (no compression when not set), and its options by tool",
+                        "    # compression:",
+                        "    #     command: ''",
+                        "    #     options:",
+                        "    #         webp:       { quality: 70 }",
+                        "    #         mozjpeg:    { quality: 70 }",
+                        "    #         oxipng:     { level: 1 }",
+                        "",
+                        "    # Croppers of the images, merged with the default ones (desktop, tablet, mobile)",
+                        "    # cropper:",
+                        "    #     desktop:    { name: desktop, picto: austral-picto-monitor, ratio: '16/9' }",
+                        "    #     mobile:     { name: mobile, picto: austral-picto-smartphone, ratio: '1/2' }",
+                        "",
+                        "    # Sizes of the images in pixels, merged with the default ones (default: 100 to 10000)",
+                        "    # image_size:",
+                        "    #     default:",
+                        "    #         width:  { min: 100, max: 10000 }",
+                        "    #         height: { min: 100, max: 10000 }",
+                        "",
+                        "    # Upload rules by name, merged with the default ones (default_image, default_file: 2M)",
+                        "    # uploads:",
+                        "    #     default_image:",
+                        "    #         size:       { max: '5M' }",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/routes/austral_entity_file.yaml": {
+                    "contents": [
+                        "# Thumbnails (austral_entity_file_thumbnail) and downloads (austral_entity_file_download) of the files",
+                        "austral_entity_file:",
+                        "    resource: '@AustralEntityFileBundle/Resources/config/routes.yaml'",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "71db7f0cadf3984faff57d12a13ebc06ce2b656e"
+        }
+    }
+}
