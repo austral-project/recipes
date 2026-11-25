@@ -1,0 +1,15 @@
+  * Use the Austral users in the firewall of <comment>config/packages/security.yaml</>:
+
+    <fg=green>firewalls:
+        main:
+            provider:       austral_security_user
+            user_checker:   austral.security.user_checker</>
+
+  * Create the tables:
+    1. <comment>php bin/console doctrine:migrations:diff</>
+    2. <comment>php bin/console doctrine:migrations:migrate</>
+
+  * Create a root user:
+    <comment>php bin/console austral:security:user --email=you@example.com --root --create</>
+
+  * Read the documentation at <comment>https://github.com/austral-project/security-bundle</>

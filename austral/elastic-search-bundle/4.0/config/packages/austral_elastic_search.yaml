@@ -1,0 +1,7 @@
+austral_elastic_search:
+    enabled:    false           # true to index the entities with #[ElasticSearch]
+    index_name: elastic-search
+    hosts:
+        - '%env(ELASTICSEARCH_URL)%'
+    logger:
+        enabled: true

@@ -1,0 +1,3 @@
+# Thumbnails (austral_entity_file_thumbnail) and downloads (austral_entity_file_download) of the files
+austral_entity_file:
+    resource: '@AustralEntityFileBundle/Resources/config/routes.yaml'

@@ -1,0 +1,11 @@
+austral_http:
+    protocol:           https       # default: https
+    default_language:   en          # default: en
+    languages:          [ en ]
+    env:
+        current:        prod        # default: prod
+        list:           [ prod ]
+    compression_gzip:
+        default:        true        # gzip / deflate compression of the responses
+        # admin:        true        # read by admin-bundle for the administration requests
+        # website:      true        # read by website-bundle for the website requests

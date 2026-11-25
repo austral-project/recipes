@@ -1,0 +1,28 @@
+austral_security:
+    # Classes of the application (src/Entity/Austral/SecurityBundle): these are the defaults
+    # entities:
+    #     user:   App\Entity\Austral\SecurityBundle\User
+    #     role:   App\Entity\Austral\SecurityBundle\Role
+    #     group:  App\Entity\Austral\SecurityBundle\Group
+
+    password_reset:
+        lifetime:           3600    # seconds a reset link is valid (60 minimum)
+        request_interval:   60      # seconds before a new link can be requested for the same user
+
+    # Firewall of config/packages/security.yaml with "login_link"; no login link when not set
+    # login_link:
+    #     firewall: main
+
+# Merged with config/packages/security.yaml. The firewall stays in security.yaml: Symfony accepts
+# the firewalls in one file only. Use there the provider "austral_security_user" and the user checker
+# "austral.security.user_checker".
+security:
+    role_hierarchy:
+        ROLE_ROOT:  [ ROLE_ADMIN_ACCESS, ROLE_USER_ACCESS ]
+
+    password_hashers:
+        App\Entity\Austral\SecurityBundle\User: 'auto'
+
+    providers:
+        austral_security_user:
+            id: austral.security.user_provider

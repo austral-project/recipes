@@ -1,0 +1,12 @@
+{
+    "bundles": {
+        "Austral\\ElasticSearchBundle\\AustralElasticSearchBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "#1": "Elasticsearch server, used when austral_elastic_search.enabled is true",
+        "ELASTICSEARCH_URL": "http://localhost:9200"
+    }
+}
