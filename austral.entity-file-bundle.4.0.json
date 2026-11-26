@@ -14,7 +14,8 @@
             "files": {
                 "config/packages/austral_entity_file.yaml": {
                     "contents": [
-                        "austral_entity_file:",
+                        "# Every option has a default value in the bundle: uncomment what the project changes",
+                        "# austral_entity_file:",
                         "    # Command that compresses the uploaded images (no compression when not set), and its options by tool",
                         "    # compression:",
                         "    #     command: ''",
@@ -52,7 +53,7 @@
                     "executable": false
                 }
             },
-            "ref": "71db7f0cadf3984faff57d12a13ebc06ce2b656e"
+            "ref": "1126968ef26d649a66fc33a134e617c0dc9af858"
         }
     }
 }
