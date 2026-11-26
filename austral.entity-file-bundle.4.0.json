@@ -35,10 +35,14 @@
                         "    #         width:  { min: 100, max: 10000 }",
                         "    #         height: { min: 100, max: 10000 }",
                         "",
-                        "    # Upload rules by name, merged with the default ones (default_image, default_file: 2M)",
+                        "    # Upload rules by name, merged with the default ones (default_image: 2M, images only; default_file: 2M, every",
+                        "    # MIME type). A list of mimeTypes replaces the default list. The configuration page of the admin",
+                        "    # (/austral-admin/status-configuration) warns about a rule without size.max or that accepts every MIME type.",
                         "    # uploads:",
                         "    #     default_image:",
                         "    #         size:       { max: '5M' }",
+                        "    #     default_file:",
+                        "    #         mimeTypes:  [ application/pdf, application/zip, text/plain ]",
                         ""
                     ],
                     "executable": false
@@ -53,7 +57,7 @@
                     "executable": false
                 }
             },
-            "ref": "1126968ef26d649a66fc33a134e617c0dc9af858"
+            "ref": "f883b09688d03c8ccf85686eaf7bc2616f90941e"
         }
     }
 }
