@@ -19,6 +19,12 @@
                     "  * The errors are recorded from now on (Monolog level \"error\" or higher):",
                     "    nothing to add to <comment>config/packages/monolog.yaml</>.",
                     "",
+                    "  * Purge the old resolved and archived errors every day (cron or Symfony Scheduler):",
+                    "    <comment>php bin/console austral:log:purge</>",
+                    "",
+                    "  * To receive the new errors by email, enable <comment>austral_log.report</> (symfony/mailer, twig/twig) and run every hour:",
+                    "    <comment>php bin/console austral:log:report</>",
+                    "",
                     "  * Read the documentation at <comment>https://github.com/austral-project/log-bundle</>"
                 ]
             },
@@ -39,6 +45,20 @@
                         "",
                         "    # Occurrences kept by error, the last ones",
                         "    occurrences_limit: 50",
+                        "",
+                        "    # austral:log:purge (to run every day) deletes the errors resolved or archived for more than X days;",
+                        "    # the new, in progress and ignored errors are never purged. 0: no purge",
+                        "    purge:",
+                        "        after_days: 90",
+                        "        statuses:   [ resolved, archived ]",
+                        "",
+                        "    # austral:log:report (to run every hour) sends the new errors and the regressions by email, at most once",
+                        "    # by period; needs symfony/mailer and twig/twig",
+                        "    report:",
+                        "        enabled:    false",
+                        "        frequency:  daily           # hourly, daily or weekly",
+                        "        # recipients: [ dev@example.com ]",
+                        "        # from:       no-reply@example.com",
                         "",
                         "    # Classes of the application (src/Entity/Austral/LogBundle): these are the defaults",
                         "    # entities:",
@@ -119,7 +139,7 @@
                     "executable": false
                 }
             },
-            "ref": "f5de571488db57f613d404fad9d3fc35730903df"
+            "ref": "12a72c7fb9f1366f4fc18d6536e4f65522a7e71c"
         }
     }
 }
