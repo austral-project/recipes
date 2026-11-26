@@ -16,6 +16,9 @@
         "austral/http-bundle": [
             "4.0"
         ],
+        "austral/log-bundle": [
+            "4.0"
+        ],
         "austral/security-bundle": [
             "4.0"
         ]
