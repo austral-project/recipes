@@ -33,6 +33,7 @@ recipe.
 | `austral/entity-file-bundle` | `config/packages/austral_entity_file.yaml`, `config/routes/austral_entity_file.yaml` |
 | `austral/http-bundle` | `config/packages/austral_http.yaml` |
 | `austral/cache-bundle` | `config/packages/austral_cache.yaml` |
+| `austral/log-bundle` | `config/packages/austral_log.yaml`, the entities `ErrorLog`, `ErrorOccurrence` |
 | `austral/elastic-search-bundle` | `config/packages/austral_elastic_search.yaml`, `ELASTICSEARCH_URL` in `.env` |
 | `austral/security-bundle` | `config/packages/austral_security.yaml`, the entities `User`, `Role`, `Group` |
 

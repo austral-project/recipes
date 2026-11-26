@@ -1,0 +1,23 @@
+austral_log:
+    # The errors of the site (Monolog level "error" or higher, every channel) are recorded in the database.
+    enabled:    true
+    # Lowest level recorded: error, critical, alert or emergency
+    level:      error
+
+    # The HTTP errors of the visitors (4xx) are not recorded, except these codes; the 5xx are always recorded
+    # capture_client_errors: [ 404, 403 ]
+
+    # Doctrine connection of the tables; the errors are written by a second connection, out of the transactions
+    # connection: default
+
+    # Occurrences kept by error, the last ones
+    occurrences_limit: 50
+
+    # Classes of the application (src/Entity/Austral/LogBundle): these are the defaults
+    # entities:
+    #     error:      App\Entity\Austral\LogBundle\ErrorLog
+    #     occurrence: App\Entity\Austral\LogBundle\ErrorOccurrence
+
+when@test:
+    austral_log:
+        enabled: false
