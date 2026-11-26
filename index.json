@@ -1,6 +1,9 @@
 {
     "aliases": [],
     "recipes": {
+        "austral/admin-bundle": [
+            "4.0"
+        ],
         "austral/cache-bundle": [
             "4.0"
         ],

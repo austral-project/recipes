@@ -1,0 +1,89 @@
+{
+    "manifests": {
+        "austral/admin-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\AdminBundle\\AustralAdminBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "post-install-output": [
+                    "  * Add the firewall of the admin <info>before</> the main firewall of <comment>config/packages/security.yaml</>:",
+                    "",
+                    "    <fg=green>firewalls:",
+                    "        austral_admin:",
+                    "            pattern:        ^%austral_admin.path%",
+                    "            lazy:           true",
+                    "            provider:       austral_security_user",
+                    "            user_checker:   austral.security.user_checker",
+                    "            form_login:",
+                    "                login_path:             austral_admin_security_login",
+                    "                check_path:             austral_admin_security_login",
+                    "                default_target_path:    austral_admin_index",
+                    "                enable_csrf:            true",
+                    "            logout:",
+                    "                path:                   austral_admin_security_logout",
+                    "                target:                 austral_admin_security_login</>",
+                    "",
+                    "  * And the access rules, <info>before</> the other rules:",
+                    "",
+                    "    <fg=green>access_control:",
+                    "        - { path: '^%austral_admin.path%/(login|logout|password)', roles: PUBLIC_ACCESS }",
+                    "        - { path: '^%austral_admin.path%', roles: ROLE_ADMIN_ACCESS }</>",
+                    "",
+                    "  * Optional, in the same firewall: <comment>login_link</>, <comment>login_throttling</> (symfony/rate-limiter)",
+                    "    and <comment>remember_me</>; the mails need symfony/mailer and <comment>austral_admin.mail.from</>.",
+                    "",
+                    "  * Open <comment>/austral-admin</> and log in with a root user",
+                    "    (<comment>php bin/console austral:security:user --email=you@example.com --root --create</>).",
+                    "",
+                    "  * Read the documentation at <comment>https://github.com/austral-project/admin-bundle</>"
+                ]
+            },
+            "files": {
+                "config/packages/austral_admin.yaml": {
+                    "contents": [
+                        "austral_admin:",
+                        "    path:                   /austral-admin   # prefix of the URLs, also the parameter %austral_admin.path%",
+                        "    name:                   Austral          # name of the project in the admin",
+                        "",
+                        "    languages:",
+                        "        interface:          [ en, fr ]       # languages of the interface, the first by default",
+                        "        content:            [ ]              # languages of the content: the URLs of the forms end with /{language}",
+                        "",
+                        "    # list:",
+                        "    #     per_page:         30               # 0 for no pagination",
+                        "    # export:",
+                        "    #     csv_delimiter:    ','",
+                        "",
+                        "    # Sender of the login link and password reset mails (symfony/mailer), no mail when null",
+                        "    # mail:",
+                        "    #     from:             admin@example.com",
+                        "    #     from_name:        Austral",
+                        "    # security:",
+                        "    #     password_reset:   true             # pages \"password forgotten\" and \"reset\", need mail.from",
+                        "",
+                        "    # Modules of the application (or the attribute #[AsAdminModule] on the Admin class)",
+                        "    modules: { }",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/routes/austral_admin.yaml": {
+                    "contents": [
+                        "# Pages of the admin (dashboard, modules, login, password reset, my account), prefixed by austral_admin.path",
+                        "austral_admin:",
+                        "    resource: .",
+                        "    type: austral_admin",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "63878342f418b02539e63b32fbdea6b5f2d16911"
+        }
+    }
+}
