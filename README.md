@@ -12,12 +12,12 @@ Add the endpoint to the `composer.json` of the project:
 
 ```json
 "extra": {
-    "symfony": {
-        "endpoint": [
-            "https://api.github.com/repos/austral-project/recipes/contents/index.json?ref=flex/master",
-            "flex://defaults"
-        ]
-    }
+  "symfony": {
+    "endpoint": [
+      "https://api.github.com/repos/austral-project/recipes/contents/index.json?ref=flex/master",
+      "flex://defaults"
+    ]
+  }
 }
 ```
 
@@ -58,14 +58,52 @@ A file of the recipe is not copied when the project already has it.
 
 ## Publish
 
-The `master` branch holds the sources; the `flex/master` branch holds the files read by Flex (`index.json` and one
-JSON file per recipe), generated with [recipes-checker](https://github.com/symfony-tools/recipes-checker):
+The `master` branch holds the sources; the `flex/master` branch holds the files read by Flex (`index.json`, one
+JSON file per recipe and `archived/`), generated with [recipes-checker](https://github.com/symfony-tools/recipes-checker).
+Nobody edits `flex/master` by hand.
+
+Once, install recipes-checker in `/tmp/recipes-checker`:
 
 ```bash
-git ls-tree HEAD */*/* | /path/to/recipes-checker/run generate:flex-endpoint austral-project/recipes master flex/master ./output/
+git clone https://github.com/symfony-tools/recipes-checker /tmp/recipes-checker
+composer install --working-dir=/tmp/recipes-checker --no-dev
 ```
 
-Then commit the content of `./output/` on `flex/master`. Nobody edits `flex/master` by hand.
+After a push on `master`, from the clone of this repository (on `master`, nothing to commit):
+
+```bash
+# 1. open flex/master in a separate folder (the clone stays on master)
+git fetch origin
+git worktree add /tmp/austral-flex flex/master
+
+# 2. generate into it: the previous files of archived/ are kept, "composer recipes:update" needs them
+git ls-tree HEAD */*/* | /tmp/recipes-checker/run generate:flex-endpoint austral-project/recipes master flex/master /tmp/austral-flex/
+
+# 3. check, commit and push flex/master
+cd /tmp/austral-flex
+git status    # index.json, the JSON file of the changed recipes, new files in archived/
+git add -A && git commit -m "chore: generate the Flex endpoint" && git push origin flex/master
+
+# 4. remove the folder
+cd - && git worktree remove /tmp/austral-flex
+```
+
+Without PHP, the installation and step 2 in Docker (clone first: Docker creates an empty folder owned by root for
+a missing volume):
+
+```bash
+git clone https://github.com/symfony-tools/recipes-checker /tmp/recipes-checker
+docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v /tmp/recipes-checker:/checker \
+  composer:2 install --working-dir=/checker --no-dev
+
+docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp \
+  -v "$PWD":/recipes -v /tmp/recipes-checker:/checker -v /tmp/austral-flex:/out \
+  -w /recipes --entrypoint sh composer:2 -c '
+    git config --global --add safe.directory /recipes &&
+    git ls-tree HEAD */*/* | php /checker/run generate:flex-endpoint austral-project/recipes master flex/master /out/'
+```
+
+Check in a project: `composer recipes austral/<bundle>`.
 
 ## Versions
 
