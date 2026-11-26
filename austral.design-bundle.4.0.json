@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "austral/design-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\DesignBundle\\AustralDesignBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "1e767ccb2ed8ad65b840cc340a39b907775876a2"
+        }
+    }
+}
