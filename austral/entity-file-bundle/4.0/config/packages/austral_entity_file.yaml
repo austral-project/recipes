@@ -1,4 +1,5 @@
-austral_entity_file:
+# Every option has a default value in the bundle: uncomment what the project changes
+# austral_entity_file:
     # Command that compresses the uploaded images (no compression when not set), and its options by tool
     # compression:
     #     command: ''

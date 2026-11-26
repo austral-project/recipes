@@ -63,7 +63,15 @@ The `master` branch holds the sources; the `flex/master` branch holds the files 
 JSON file per recipe and `archived/`), generated with [recipes-checker](https://github.com/symfony-tools/recipes-checker).
 Nobody edits `flex/master` by hand.
 
-Once, install recipes-checker in `/tmp/recipes-checker`:
+The workflow `.github/workflows/flex-endpoint.yml` does it: on a pull request it checks the recipes
+(`lint:manifests`, `lint:yaml`); after a push on `master` it checks them again, regenerates `flex/master` from its
+current content (the files of `archived/` are kept) and pushes it when something changed. It can also be started
+by hand from the Actions tab ("Run workflow"). The commit of recipes-checker it uses is `RECIPES_CHECKER_REF` in
+the workflow.
+
+### By hand
+
+Only when the workflow cannot run. Once, install recipes-checker in `/tmp/recipes-checker`:
 
 ```bash
 git clone https://github.com/symfony-tools/recipes-checker /tmp/recipes-checker

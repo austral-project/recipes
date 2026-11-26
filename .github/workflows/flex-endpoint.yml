@@ -1,0 +1,99 @@
+# Checks the recipes, then regenerates the branch flex/master (read by Symfony Flex) after a push on master.
+# Nobody edits flex/master by hand: this workflow is its only writer.
+name: Flex endpoint
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+  workflow_dispatch:
+
+# One generation at a time: two pushes in a row must not push flex/master concurrently
+concurrency:
+  group: flex-endpoint-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  # Commit of symfony-tools/recipes-checker used to check and generate (update it on purpose)
+  RECIPES_CHECKER_REF: d81ae8a951681b552aa7357a1afe855d0c6a819c
+
+jobs:
+  lint:
+    name: Check the recipes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: symfony-tools/recipes-checker
+          ref: ${{ env.RECIPES_CHECKER_REF }}
+          path: .recipes-checker
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: intl, mbstring
+          coverage: none
+          tools: composer
+
+      - run: composer install --working-dir=.recipes-checker --no-dev --no-progress
+
+      - name: Check the manifests
+        run: php .recipes-checker/run lint:manifests
+
+      # lint:yaml reads the list of files on its standard input
+      - name: Check the YAML files
+        run: git ls-files -- 'austral/*.yaml' 'austral/*.yml' | php .recipes-checker/run lint:yaml
+
+  publish:
+    name: Generate flex/master
+    needs: lint
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # The current flex/master: the files of archived/ are kept, "composer recipes:update" needs them
+      - uses: actions/checkout@v4
+        with:
+          ref: flex/master
+          path: .flex
+
+      - uses: actions/checkout@v4
+        with:
+          repository: symfony-tools/recipes-checker
+          ref: ${{ env.RECIPES_CHECKER_REF }}
+          path: .recipes-checker
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: intl, mbstring
+          coverage: none
+          tools: composer
+
+      - run: composer install --working-dir=.recipes-checker --no-dev --no-progress
+
+      # */*/* does not match the hidden folders .flex and .recipes-checker
+      - name: Generate the files of Flex
+        run: git ls-tree HEAD */*/* | php .recipes-checker/run generate:flex-endpoint "${{ github.repository }}" master flex/master .flex/
+
+      - name: Commit and push flex/master
+        working-directory: .flex
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "flex/master is up to date"
+            exit 0
+          fi
+          git status --short
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: generate the Flex endpoint" -m "From ${GITHUB_SHA::7} of master."
+          git push origin HEAD:flex/master
