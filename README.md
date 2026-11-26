@@ -89,20 +89,28 @@ git add -A && git commit -m "chore: generate the Flex endpoint" && git push orig
 cd - && git worktree remove /tmp/austral-flex
 ```
 
-Without PHP, the installation and step 2 in Docker (clone first: Docker creates an empty folder owned by root for
-a missing volume):
+Without PHP, the installation and step 2 in Docker:
 
 ```bash
 git clone https://github.com/symfony-tools/recipes-checker /tmp/recipes-checker
 docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v /tmp/recipes-checker:/checker \
-  composer:2 install --working-dir=/checker --no-dev
+  composer:2 install --working-dir=/checker --no-dev --ignore-platform-req=ext-intl
 
 docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp \
   -v "$PWD":/recipes -v /tmp/recipes-checker:/checker -v /tmp/austral-flex:/out \
   -w /recipes --entrypoint sh composer:2 -c '
     git config --global --add safe.directory /recipes &&
-    git ls-tree HEAD */*/* | php /checker/run generate:flex-endpoint austral-project/recipes master flex/master /out/'
+    git ls-tree HEAD */*/* | php -d error_reporting="E_ALL & ~E_DEPRECATED" -d zend.assertions=-1 /checker/run generate:flex-endpoint austral-project/recipes master flex/master /out/'
 ```
+
+- Clone before the first `docker run`: Docker creates a missing volume as an empty folder owned by root, and the
+  clone then fails with "Permission denied" (`sudo rm -rf /tmp/recipes-checker`, then clone again).
+- The `composer:2` image has no `intl` extension: recipes-checker requires it in its `composer.json`, but the
+  generation of the endpoint does not use it, hence `--ignore-platform-req=ext-intl`.
+- The dependencies of recipes-checker are older than the PHP of the image: `error_reporting` hides their
+  deprecation notices, and `zend.assertions=-1` stops symfony/runtime from changing the deprecated
+  `assert.*` settings. The generation prints nothing else when it succeeds; check the result with `git status`
+  in `/tmp/austral-flex` (step 3).
 
 Check in a project: `composer recipes austral/<bundle>`.
 
