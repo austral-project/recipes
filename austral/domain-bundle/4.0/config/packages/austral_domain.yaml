@@ -1,0 +1,7 @@
+austral_domain:
+    # Keeps the enabled domains in the Doctrine result cache of cache-bundle (also needs austral_cache.enabled)
+    cache: true
+
+# The entity of the application is src/Entity/Austral/DomainBundle/Domain.php (the default). Another class:
+# parameters:
+#     austral.entity.domain.class: App\Entity\Domain

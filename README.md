@@ -34,6 +34,7 @@ recipe.
 | `austral/http-bundle` | `config/packages/austral_http.yaml` |
 | `austral/cache-bundle` | `config/packages/austral_cache.yaml` |
 | `austral/log-bundle` | `config/packages/austral_log.yaml`, the entities `ErrorLog`, `ErrorOccurrence` |
+| `austral/domain-bundle` | `config/packages/austral_domain.yaml`, the entity `Domain` |
 | `austral/elastic-search-bundle` | `config/packages/austral_elastic_search.yaml`, `ELASTICSEARCH_URL` in `.env` |
 | `austral/security-bundle` | `config/packages/austral_security.yaml`, the entities `User`, `Role`, `Group` |
 

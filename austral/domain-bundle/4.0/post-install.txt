@@ -1,0 +1,11 @@
+  * Create the table of the domains (<comment>austral_http_domain</>, the table of the 3.1 is kept as it is):
+    1. <comment>php bin/console doctrine:migrations:diff</>
+    2. <comment>php bin/console doctrine:migrations:migrate</>
+
+  * Add the domains of the site in the admin (<comment>/austral-admin/domain</>, with admin-bundle).
+    Without domain, the host of the request is the master domain.
+
+  * Attach the existing entities filtered by domain to the master domain:
+    <comment>php bin/console austral:domain:migrate</>
+
+  * Read the documentation at <comment>https://github.com/austral-project/domain-bundle</>
