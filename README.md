@@ -29,11 +29,15 @@ recipe.
 
 | Package | Copies |
 |---|---|
+| `austral/admin-bundle` | `config/packages/austral_admin.yaml`, `config/routes/austral_admin.yaml` (firewall to add by hand) |
 | `austral/entity-file-bundle` | `config/packages/austral_entity_file.yaml`, `config/routes/austral_entity_file.yaml` |
 | `austral/http-bundle` | `config/packages/austral_http.yaml` |
 | `austral/cache-bundle` | `config/packages/austral_cache.yaml` |
 | `austral/elastic-search-bundle` | `config/packages/austral_elastic_search.yaml`, `ELASTICSEARCH_URL` in `.env` |
 | `austral/security-bundle` | `config/packages/austral_security.yaml`, the entities `User`, `Role`, `Group` |
+
+The firewalls stay in `config/packages/security.yaml`: Symfony refuses new firewalls in a second file, so
+the recipes of security-bundle and admin-bundle display the firewall to add after the installation.
 
 The bundles that have nothing to copy (tools, entity, entity-translate, form, list, filter) have no recipe: Flex
 registers a Symfony bundle without a recipe by itself, and recipes-checker refuses a recipe that only does that.

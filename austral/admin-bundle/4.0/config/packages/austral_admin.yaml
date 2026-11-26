@@ -1,0 +1,22 @@
+austral_admin:
+    path:                   /austral-admin   # prefix of the URLs, also the parameter %austral_admin.path%
+    name:                   Austral          # name of the project in the admin
+
+    languages:
+        interface:          [ en, fr ]       # languages of the interface, the first by default
+        content:            [ ]              # languages of the content: the URLs of the forms end with /{language}
+
+    # list:
+    #     per_page:         30               # 0 for no pagination
+    # export:
+    #     csv_delimiter:    ','
+
+    # Sender of the login link and password reset mails (symfony/mailer), no mail when null
+    # mail:
+    #     from:             admin@example.com
+    #     from_name:        Austral
+    # security:
+    #     password_reset:   true             # pages "password forgotten" and "reset", need mail.from
+
+    # Modules of the application (or the attribute #[AsAdminModule] on the Admin class)
+    modules: { }

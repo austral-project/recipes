@@ -1,0 +1,4 @@
+# Pages of the admin (dashboard, modules, login, password reset, my account), prefixed by austral_admin.path
+austral_admin:
+    resource: .
+    type: austral_admin
