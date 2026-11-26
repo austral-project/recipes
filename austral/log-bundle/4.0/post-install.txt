@@ -5,4 +5,10 @@
   * The errors are recorded from now on (Monolog level "error" or higher):
     nothing to add to <comment>config/packages/monolog.yaml</>.
 
+  * Purge the old resolved and archived errors every day (cron or Symfony Scheduler):
+    <comment>php bin/console austral:log:purge</>
+
+  * To receive the new errors by email, enable <comment>austral_log.report</> (symfony/mailer, twig/twig) and run every hour:
+    <comment>php bin/console austral:log:report</>
+
   * Read the documentation at <comment>https://github.com/austral-project/log-bundle</>

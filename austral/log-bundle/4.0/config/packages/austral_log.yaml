@@ -13,6 +13,20 @@ austral_log:
     # Occurrences kept by error, the last ones
     occurrences_limit: 50
 
+    # austral:log:purge (to run every day) deletes the errors resolved or archived for more than X days;
+    # the new, in progress and ignored errors are never purged. 0: no purge
+    purge:
+        after_days: 90
+        statuses:   [ resolved, archived ]
+
+    # austral:log:report (to run every hour) sends the new errors and the regressions by email, at most once
+    # by period; needs symfony/mailer and twig/twig
+    report:
+        enabled:    false
+        frequency:  daily           # hourly, daily or weekly
+        # recipients: [ dev@example.com ]
+        # from:       no-reply@example.com
+
     # Classes of the application (src/Entity/Austral/LogBundle): these are the defaults
     # entities:
     #     error:      App\Entity\Austral\LogBundle\ErrorLog
