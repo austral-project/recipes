@@ -7,6 +7,9 @@
         "austral/cache-bundle": [
             "4.0"
         ],
+        "austral/domain-bundle": [
+            "4.0"
+        ],
         "austral/elastic-search-bundle": [
             "4.0"
         ],
