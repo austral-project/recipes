@@ -3,6 +3,13 @@
         "Austral\\AdminBundle\\AustralAdminBundle": ["all"]
     },
     "copy-from-recipe": {
-        "config/": "%CONFIG_DIR%/"
-    }
+        "config/": "%CONFIG_DIR%/",
+        "package.json": "package.json",
+        "webpack.config.mjs": "webpack.config.mjs"
+    },
+    "gitignore": [
+        "/node_modules/",
+        "/public/build/",
+        "npm-debug.log"
+    ]
 }

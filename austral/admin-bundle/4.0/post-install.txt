@@ -24,6 +24,17 @@
   * Optional, in the same firewall: <comment>login_link</>, <comment>login_throttling</> (symfony/rate-limiter)
     and <comment>remember_me</>; the mails need symfony/mailer and <comment>austral_admin.mail.from</>.
 
+  * Build the styles and the scripts of the admin (Node.js 22.18 or 24.11 and higher):
+
+    <comment>npm install</>
+    <comment>npm run build</>                    (<comment>npm run watch</> while developing)
+
+    The recipe does not replace a <comment>package.json</> or a <comment>webpack.config.mjs</> that already exist: add
+    <comment>"@austral/admin": "file:vendor/austral/admin-bundle"</> and the build tools of the recipe to the
+    <comment>devDependencies</>, and call <comment>configureAustralAdmin(Encore)</> in the Webpack configuration
+    (<comment>vendor/austral/admin-bundle/encore.mjs</>). A <comment>webpack.config.js</> is read before
+    <comment>webpack.config.mjs</>: keep only one of them.
+
   * Open <comment>/austral-admin</> and log in with a root user
     (<comment>php bin/console austral:security:user --email=you@example.com --root --create</>).
 

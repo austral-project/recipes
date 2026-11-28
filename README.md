@@ -29,7 +29,7 @@ recipe.
 
 | Package | Copies |
 |---|---|
-| `austral/admin-bundle` | `config/packages/austral_admin.yaml`, `config/routes/austral_admin.yaml` (firewall to add by hand) |
+| `austral/admin-bundle` | `config/packages/austral_admin.yaml`, `config/routes/austral_admin.yaml` (firewall to add by hand), `package.json` and `webpack.config.mjs` to build the admin (`npm install`, `npm run build`) |
 | `austral/entity-file-bundle` | `config/packages/austral_entity_file.yaml`, `config/routes/austral_entity_file.yaml` |
 | `austral/http-bundle` | `config/packages/austral_http.yaml` |
 | `austral/cache-bundle` | `config/packages/austral_cache.yaml` |
