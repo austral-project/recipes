@@ -1,0 +1,35 @@
+{
+    "manifests": {
+        "austral/design-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Austral\\DesignBundle\\AustralDesignBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/packages/austral_design.yaml": {
+                    "contents": [
+                        "austral_design:",
+                        "    picto:",
+                        "        # Folders of pictos of the project, searched before the pictos of the bundle (vendor/austral/design-bundle/assets/svg,",
+                        "        # always available): a file of the project replaces the picto of the bundle with the same name.",
+                        "        # A picto is named by its path without extension: <twig:Austral:Picto name=\"my-folder/my-picto\" />",
+                        "        # renders assets/svg/my-folder/my-picto.svg. SVG files only.",
+                        "        paths:",
+                        "            - '%kernel.project_dir%/assets/svg'",
+                        "",
+                        "        # default:          austral-picto/circle-help   # picto rendered without name",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "8fdc843165a5bc58dff50135690b6322d599b2f4"
+        }
+    }
+}
