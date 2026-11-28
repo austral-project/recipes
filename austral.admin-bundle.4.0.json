@@ -8,8 +8,15 @@
                     ]
                 },
                 "copy-from-recipe": {
-                    "config/": "%CONFIG_DIR%/"
+                    "config/": "%CONFIG_DIR%/",
+                    "package.json": "package.json",
+                    "webpack.config.mjs": "webpack.config.mjs"
                 },
+                "gitignore": [
+                    "/node_modules/",
+                    "/public/build/",
+                    "npm-debug.log"
+                ],
                 "post-install-output": [
                     "  * Add the firewall of the admin <info>before</> the main firewall of <comment>config/packages/security.yaml</>:",
                     "",
@@ -36,6 +43,17 @@
                     "",
                     "  * Optional, in the same firewall: <comment>login_link</>, <comment>login_throttling</> (symfony/rate-limiter)",
                     "    and <comment>remember_me</>; the mails need symfony/mailer and <comment>austral_admin.mail.from</>.",
+                    "",
+                    "  * Build the styles and the scripts of the admin (Node.js 22.18 or 24.11 and higher):",
+                    "",
+                    "    <comment>npm install</>",
+                    "    <comment>npm run build</>                    (<comment>npm run watch</> while developing)",
+                    "",
+                    "    The recipe does not replace a <comment>package.json</> or a <comment>webpack.config.mjs</> that already exist: add",
+                    "    <comment>\"@austral/admin\": \"file:vendor/austral/admin-bundle\"</> and the build tools of the recipe to the",
+                    "    <comment>devDependencies</>, and call <comment>configureAustralAdmin(Encore)</> in the Webpack configuration",
+                    "    (<comment>vendor/austral/admin-bundle/encore.mjs</>). A <comment>webpack.config.js</> is read before",
+                    "    <comment>webpack.config.mjs</>: keep only one of them.",
                     "",
                     "  * Open <comment>/austral-admin</> and log in with a root user",
                     "    (<comment>php bin/console austral:security:user --email=you@example.com --root --create</>).",
@@ -81,9 +99,70 @@
                         ""
                     ],
                     "executable": false
+                },
+                "package.json": {
+                    "contents": [
+                        "{",
+                        "    \"license\": \"UNLICENSED\",",
+                        "    \"private\": true,",
+                        "    \"devDependencies\": {",
+                        "        \"@austral/admin\": \"file:vendor/austral/admin-bundle\",",
+                        "        \"@babel/core\": \"^8.0.0\",",
+                        "        \"@babel/preset-env\": \"^8.0.0\",",
+                        "        \"@symfony/webpack-encore\": \"^7.2.0\",",
+                        "        \"sass\": \"^1.80.0\",",
+                        "        \"sass-loader\": \"^17.0.0\",",
+                        "        \"webpack\": \"^5.82.0\",",
+                        "        \"webpack-cli\": \"^6.0.0 || ^7.0.0\"",
+                        "    },",
+                        "    \"scripts\": {",
+                        "        \"dev\": \"encore dev\",",
+                        "        \"watch\": \"encore dev --watch\",",
+                        "        \"build\": \"encore production --progress\"",
+                        "    }",
+                        "}",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "webpack.config.mjs": {
+                    "contents": [
+                        "import path from \"node:path\";",
+                        "import Encore from \"@symfony/webpack-encore\";",
+                        "// Styles and scripts of the administration: the design system of design-bundle, then those of admin-bundle,",
+                        "// in the entry \"austral-admin\" read by austral_admin_styles() and austral_admin_scripts().",
+                        "import configureAustralAdmin from \"./vendor/austral/admin-bundle/encore.mjs\";",
+                        "",
+                        "if (!Encore.isRuntimeEnvironmentConfigured())",
+                        "{",
+                        "  Encore.configureRuntimeEnvironment(process.env.NODE_ENV || \"dev\");",
+                        "}",
+                        "",
+                        "configureAustralAdmin(Encore)",
+                        "  // Same folder as the option austral_admin.build (default %kernel.project_dir%/public/build/entrypoints.json)",
+                        "  .setOutputPath(\"public/build/\")",
+                        "  .setPublicPath(\"/build\")",
+                        "  .splitEntryChunks()",
+                        "  .enableSingleRuntimeChunk()",
+                        "  .cleanupOutputBeforeBuild()",
+                        "  .enableSourceMaps(!Encore.isProduction())",
+                        "  .enableVersioning(Encore.isProduction());",
+                        "",
+                        "// Add the entries of the project here, e.g. .addEntry(\"app\", \"./assets/app.js\") before getWebpackConfig().",
+                        "",
+                        "const config = await Encore.getWebpackConfig();",
+                        "",
+                        "// The packages imported by the bundles are installed in the node_modules of the project: look there first, also",
+                        "// when the bundles are symlinked (Composer \"path\" repository).",
+                        "config.resolve.modules = [path.resolve(\"node_modules\"), \"node_modules\"];",
+                        "",
+                        "export default config;",
+                        ""
+                    ],
+                    "executable": false
                 }
             },
-            "ref": "63878342f418b02539e63b32fbdea6b5f2d16911"
+            "ref": "6c30eef3b67375319d1b9e0606f1dea1ee2f05b8"
         }
     }
 }
